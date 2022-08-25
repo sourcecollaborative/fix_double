@@ -1,0 +1,28 @@
+#!/bin/bash
+ARGUMENT=$1;
+if [[ -f $ARGUMENT ]]; then
+    # GET HERE IF FILE ARGUMENT IS VALID:
+    # USE sed MAGIC TO DO THE WORK:
+    # USE CASE: CLIENT FILE USES `""` AS DELIMITER. WE WANT
+    # TO CHANGE THIS BACK TO `"`. PROCESS IS AS FOLLOWS:
+    #   1. Convert empty strings `""""` using a sentinel (with a Unicode flower)
+    #   2. Convert end-of-string-but-embedded `"` to Unicode U+201D, `”`
+    #   3. Also we now handle middle-of-string `"` to Unicode U+201D, `”` 
+    #      (being careful to avoid any sentinel flowers or U+201D characters)
+    #   4. Now can safely convert starting and terminating `""` to single `"`
+    #   5. Finally, we can back-convert our sentinel from step 1 to empty string, `""`
+    #
+    sed -E -i.bak 's/""""/"✿"/g;s/"""/”"/g;s/([^"”✿])"([^"”✿])/\1”\2/g;s/""/"/g;s/"✿"/""/' $ARGUMENT
+else
+    echo "FIX_DOUBLE is (c) 2022 by Edward H. Trager."
+    echo ""
+    echo 'fix_double fixes files with duplicated double quotation marks, `""`'
+    echo 'by replacing them with singleton double quotation marks `"`.'
+    echo 'String-embedded double quotation marks `"` are converted to'
+    echo 'Unicode U+201D, `”`. This is done to handle things like'
+    echo '«Patient is 5'7\" tall» which would become «Patient is 5'7” tall».'
+    echo '' 
+    echo 'Please pass a valid file name as the command line argument.'
+    exit 1
+fi
+
