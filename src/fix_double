@@ -35,11 +35,11 @@ else
     echo 'by replacing them with singleton double quotation marks `"`.'
     echo 'String-embedded double quotation marks `"` are converted to'
     echo 'Unicode U+201D, `”`. This is done to handle things like'
-    echo '«Patient is 5'7" tall» which would become «Patient is 5'7” tall».'
+    echo '«Patient is 5'7\" tall» which would become «Patient is 5'7” tall».'
     echo '' 
     echo 'Please pass a valid file name as the command line argument.'
     echo ''
-    echo 'The original file contents will be saved with an extension of ".original" added'
+    echo 'The original file contents will be saved with an extension of «.original» added'
     echo 'to the end. The modified contents will retain the original file name.'
     exit 1
 fi
